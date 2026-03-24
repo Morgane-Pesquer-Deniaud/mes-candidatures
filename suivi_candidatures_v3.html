@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mes Candidatures ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fff5f9;
+    --bg2: #ffe8f3;
+    --surface: #ffffff;
+    --border: #f9d0e8;
+    --pink: #f472b6;
+    --pink-light: #fce7f3;
+    --rose: #fb7185;
+    --lilac: #c084fc;
+    --lilac-light: #f3e8ff;
+    --peach: #fb923c;
+    --peach-light: #fff7ed;
+    --mint: #34d399;
+    --mint-light: #ecfdf5;
+    --sky: #38bdf8;
+    --text: #4a2040;
+    --muted: #b08fa0;
+    --shadow: rgba(244,114,182,0.13);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+
+  .blob-container { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .blob { position:absolute; border-radius:50%; filter:blur(70px); opacity:0.2; animation:floatBlob 9s ease-in-out infinite alternate; }
+  .blob1 { width:420px; height:420px; background:#f9a8d4; top:-120px; left:-120px; }
+  .blob2 { width:320px; height:320px; background:#d8b4fe; top:35%; right:-100px; animation-delay:3s; }
+  .blob3 { width:260px; height:260px; background:#fed7aa; bottom:8%; left:18%; animation-delay:6s; }
+  @keyframes floatBlob { 0%{transform:translate(0,0) scale(1);} 100%{transform:translate(25px,35px) scale(1.06);} }
+
+  .page { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:36px 24px 60px; }
+
+  /* HEADER */
+  header { text-align:center; margin-bottom:32px; animation:slideDown 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+  @keyframes slideDown { from{opacity:0;transform:translateY(-30px);} to{opacity:1;transform:translateY(0);} }
+  .header-emoji { font-size:38px; display:block; margin-bottom:6px; animation:bounce 2.5s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+  h1 { font-family:'Playfair Display',serif; font-size:36px; font-weight:900; line-height:1.1; margin-bottom:4px; }
+  h1 em { font-style:italic; background:linear-gradient(135deg,var(--pink),var(--lilac)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .subtitle { font-size:14px; color:var(--muted); margin-bottom:0; }
+
+  /* TABS */
+  .tabs { display:flex; gap:6px; background:white; border:1.5px solid var(--border); border-radius:50px; padding:5px; width:fit-content; margin:0 auto 28px; box-shadow:0 4px 20px var(--shadow); animation:slideDown 0.5s 0.1s both; }
+  .tab { border:none; background:transparent; color:var(--muted); border-radius:50px; padding:8px 22px; font-size:13px; font-family:'Nunito',sans-serif; font-weight:700; cursor:pointer; transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+  .tab.active { background:linear-gradient(135deg,var(--pink),var(--lilac)); color:white; box-shadow:0 4px 16px rgba(244,114,182,0.4); }
+
+  /* CONTROLS */
+  .controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:24px; animation:slideUp 0.5s 0.2s both; }
+  @keyframes slideUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+  .filter-btn { background:white; border:1.5px solid var(--border); color:var(--muted); border-radius:50px; padding:8px 18px; font-size:13px; font-family:'Nunito',sans-serif; font-weight:700; cursor:pointer; transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow:0 2px 8px var(--shadow); }
+  .filter-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px var(--shadow); }
+  .filter-btn.active { background:linear-gradient(135deg,var(--pink),var(--lilac)); border-color:transparent; color:white; transform:translateY(-2px); box-shadow:0 6px 20px rgba(244,114,182,0.4); }
+  .btn-add { margin-left:auto; background:linear-gradient(135deg,var(--pink),var(--rose)); border:none; color:white; border-radius:50px; padding:10px 22px; font-size:14px; font-family:'Nunito',sans-serif; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:6px; transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow:0 4px 20px rgba(244,114,182,0.4); }
+  .btn-add:hover { transform:translateY(-3px) scale(1.03); box-shadow:0 10px 30px rgba(244,114,182,0.5); }
+  .btn-export { background:white; border:1.5px solid var(--border); color:var(--muted); border-radius:50px; padding:8px 16px; font-size:13px; font-family:'Nunito',sans-serif; font-weight:700; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px var(--shadow); }
+  .btn-export:hover { border-color:var(--pink); color:var(--pink); transform:translateY(-2px); }
+  input[type="file"] { display:none; }
+
+  /* CARDS */
+  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px; }
+  .card { background:white; border:1.5px solid var(--border); border-radius:20px; padding:22px; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); position:relative; overflow:hidden; box-shadow:0 4px 20px var(--shadow); animation:cardIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+  @keyframes cardIn { from{opacity:0;transform:scale(0.85) translateY(20px);} to{opacity:1;transform:scale(1) translateY(0);} }
+  .card:hover { transform:translateY(-6px) rotate(0.4deg); box-shadow:0 16px 40px rgba(244,114,182,0.22); border-color:var(--pink); }
+  .card-stripe { position:absolute; top:0; left:0; right:0; height:4px; border-radius:20px 20px 0 0; }
+  .stripe-job { background:linear-gradient(90deg,var(--peach),#fbbf24); }
+  .stripe-stage { background:linear-gradient(90deg,var(--pink),var(--lilac)); }
+  .stripe-alt { background:linear-gradient(90deg,var(--mint),var(--sky)); }
+  .card-emoji { font-size:28px; margin-bottom:8px; display:block; transition:transform 0.3s; }
+  .card:hover .card-emoji { transform:scale(1.2) rotate(-5deg); }
+  .card-company { font-family:'Playfair Display',serif; font-weight:700; font-size:17px; margin-bottom:3px; }
+  .card-poste { font-size:13px; color:var(--muted); margin-bottom:14px; }
+  .card-meta { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:12px; }
+  .tag { border-radius:50px; padding:4px 12px; font-size:11px; font-weight:700; }
+  .tag-job { background:var(--peach-light); color:#c2410c; }
+  .tag-stage { background:var(--pink-light); color:#be185d; }
+  .tag-alt { background:var(--mint-light); color:#065f46; }
+  .s-en-attente { background:#fff7ed; color:#c2410c; }
+  .s-envoyée { background:#fdf4ff; color:#7c3aed; }
+  .s-relance { background:#fef9c3; color:#854d0e; }
+  .s-entretien { background:#ecfdf5; color:#065f46; }
+  .s-acceptée { background:#dcfce7; color:#166534; }
+  .s-refus { background:#f1f5f9; color:#64748b; }
+  .card-date { font-size:12px; color:var(--muted); margin-bottom:8px; }
+  .card-note { font-size:12px; color:var(--muted); font-style:italic; background:var(--bg); border-radius:10px; padding:8px 12px; margin-bottom:8px; }
+  .card-actions { display:flex; gap:8px; margin-top:14px; }
+  .btn-edit,.btn-del { border:none; border-radius:50px; padding:6px 14px; font-size:12px; font-family:'Nunito',sans-serif; font-weight:700; cursor:pointer; transition:all 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+  .btn-edit { background:var(--pink-light); color:var(--pink); }
+  .btn-del { background:#fff1f2; color:#fb7185; }
+  .btn-edit:hover { background:var(--pink); color:white; transform:scale(1.05); }
+  .btn-del:hover { background:#fb7185; color:white; transform:scale(1.05); }
+
+  /* ── STATS PANEL ── */
+  .stats-panel { display:none; animation:slideUp 0.4s both; }
+  .stats-panel.visible { display:block; }
+
+  /* KPI row */
+  .kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px; }
+  .kpi { background:white; border:1.5px solid var(--border); border-radius:20px; padding:20px 18px; box-shadow:0 4px 20px var(--shadow); text-align:center; animation:popIn 0.45s cubic-bezier(0.34,1.56,0.64,1) both; position:relative; overflow:hidden; }
+  .kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:20px 20px 0 0; }
+  .kpi:nth-child(1)::before { background:linear-gradient(90deg,var(--pink),var(--lilac)); }
+  .kpi:nth-child(2)::before { background:linear-gradient(90deg,var(--lilac),var(--sky)); }
+  .kpi:nth-child(3)::before { background:linear-gradient(90deg,var(--mint),var(--sky)); }
+  .kpi:nth-child(4)::before { background:linear-gradient(90deg,var(--peach),#fbbf24); }
+  .kpi:nth-child(1){ animation-delay:0.05s; }
+  .kpi:nth-child(2){ animation-delay:0.1s; }
+  .kpi:nth-child(3){ animation-delay:0.15s; }
+  .kpi:nth-child(4){ animation-delay:0.2s; }
+  @keyframes popIn { from{opacity:0;transform:scale(0.75);} to{opacity:1;transform:scale(1);} }
+  .kpi-icon { font-size:22px; margin-bottom:6px; }
+  .kpi-value { font-family:'Playfair Display',serif; font-size:32px; font-weight:900; line-height:1; margin-bottom:4px; background:linear-gradient(135deg,var(--pink),var(--lilac)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .kpi-label { font-size:12px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
+
+  /* Charts row */
+  .charts-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+  @media(max-width:640px) { .charts-row { grid-template-columns:1fr; } }
+
+  .chart-card { background:white; border:1.5px solid var(--border); border-radius:20px; padding:22px; box-shadow:0 4px 20px var(--shadow); animation:popIn 0.45s 0.25s both; }
+  .chart-title { font-family:'Playfair Display',serif; font-weight:700; font-size:15px; margin-bottom:18px; display:flex; align-items:center; gap:7px; }
+
+  /* Donut */
+  .donut-wrap { display:flex; align-items:center; gap:24px; }
+  .donut-svg { flex-shrink:0; }
+  .donut-legend { display:flex; flex-direction:column; gap:10px; flex:1; }
+  .legend-item { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; }
+  .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .legend-pct { margin-left:auto; font-weight:700; font-size:12px; color:var(--muted); }
+
+  /* Status bar chart */
+  .bar-list { display:flex; flex-direction:column; gap:10px; }
+  .bar-row { display:flex; align-items:center; gap:10px; font-size:13px; }
+  .bar-label { width:110px; flex-shrink:0; font-weight:600; font-size:12px; }
+  .bar-track { flex:1; background:var(--bg); border-radius:50px; height:10px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:50px; transition:width 1s cubic-bezier(0.34,1.56,0.64,1); }
+  .bar-count { width:24px; text-align:right; font-size:12px; font-weight:700; color:var(--muted); flex-shrink:0; }
+
+  /* Timeline */
+  .timeline-card { background:white; border:1.5px solid var(--border); border-radius:20px; padding:22px; box-shadow:0 4px 20px var(--shadow); animation:popIn 0.45s 0.3s both; margin-bottom:16px; }
+  .timeline-wrap { position:relative; height:120px; }
+  .timeline-svg { width:100%; height:100%; overflow:visible; }
+
+  /* No data */
+  .no-data { text-align:center; padding:50px 20px; color:var(--muted); }
+  .no-data span { font-size:40px; display:block; margin-bottom:10px; animation:bounce 2s infinite; }
+
+  /* MODAL */
+  .modal-bg { display:none; position:fixed; inset:0; background:rgba(74,32,64,0.3); backdrop-filter:blur(6px); z-index:100; align-items:center; justify-content:center; }
+  .modal-bg.open { display:flex; animation:fadeIn 0.2s; }
+  @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+  .modal { background:white; border:1.5px solid var(--border); border-radius:24px; padding:32px; width:440px; max-width:95vw; max-height:90vh; overflow-y:auto; box-shadow:0 30px 80px rgba(244,114,182,0.25); animation:modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes modalIn { from{opacity:0;transform:scale(0.8) translateY(40px);} to{opacity:1;transform:scale(1) translateY(0);} }
+  .modal-header { text-align:center; margin-bottom:24px; }
+  .modal-header .icon { font-size:36px; display:block; margin-bottom:6px; }
+  .modal h2 { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; }
+  .field { margin-bottom:16px; }
+  .field label { display:block; font-size:12px; font-weight:700; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.8px; }
+  .field input,.field select,.field textarea { width:100%; background:var(--bg); border:1.5px solid var(--border); color:var(--text); border-radius:12px; padding:10px 14px; font-size:14px; font-family:'Nunito',sans-serif; font-weight:600; outline:none; transition:all 0.2s; }
+  .field input:focus,.field select:focus,.field textarea:focus { border-color:var(--pink); background:white; box-shadow:0 0 0 3px rgba(244,114,182,0.15); }
+  .field textarea { resize:vertical; min-height:80px; }
+  .modal-actions { display:flex; gap:10px; margin-top:22px; }
+  .btn-save { flex:1; background:linear-gradient(135deg,var(--pink),var(--lilac)); color:white; border:none; border-radius:50px; padding:12px; font-family:'Nunito',sans-serif; font-weight:700; cursor:pointer; font-size:15px; transition:all 0.2s; box-shadow:0 4px 20px rgba(244,114,182,0.4); }
+  .btn-save:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(244,114,182,0.5); }
+  .btn-cancel { background:var(--bg); color:var(--muted); border:1.5px solid var(--border); border-radius:50px; padding:12px 20px; font-family:'Nunito',sans-serif; cursor:pointer; font-size:14px; font-weight:700; transition:all 0.2s; }
+  .btn-cancel:hover { background:var(--border); }
+
+  .empty { grid-column:1/-1; text-align:center; padding:70px 20px; color:var(--muted); }
+  .empty .empty-icon { font-size:48px; display:block; margin-bottom:12px; animation:bounce 2s infinite; }
+
+  .sparkle { position:fixed; pointer-events:none; font-size:18px; z-index:9999; animation:sparkleAnim 0.9s ease-out forwards; }
+  @keyframes sparkleAnim { 0%{opacity:1;transform:scale(1) translateY(0);} 100%{opacity:0;transform:scale(0) translateY(-50px);} }
+</style>
+</head>
+<body>
+
+<div class="blob-container">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+</div>
+
+<div class="page">
+  <header>
+    <span class="header-emoji">🌸</span>
+    <h1>Mes <em>Candidatures</em></h1>
+    <p class="subtitle">Ton espace pour suivre toutes tes opportunités ✨</p>
+  </header>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('candidatures')">💌 Candidatures</button>
+    <button class="tab" onclick="switchTab('stats')">📊 Statistiques</button>
+  </div>
+
+  <!-- Candidatures panel -->
+  <div id="panelCandidatures">
+    <div class="controls">
+      <button class="filter-btn active" onclick="setFilter('Tous')">🌈 Tous</button>
+      <button class="filter-btn" onclick="setFilter('Job d\'été')">☀️ Job d'été</button>
+      <button class="filter-btn" onclick="setFilter('Stage école')">🎓 Stage école</button>
+      <button class="filter-btn" onclick="setFilter('Alternance')">🔄 Alternance</button>
+      <button class="btn-export" onclick="exportData()">💾 Exporter</button>
+      <label class="btn-export" for="importFile">📂 Importer</label>
+      <input type="file" id="importFile" accept=".json" onchange="importData(event)">
+      <button class="btn-add" onclick="openModal()">✨ Ajouter</button>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+
+  <!-- Stats panel -->
+  <div id="panelStats" class="stats-panel">
+    <div id="statsContent"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="icon" id="modalIcon">💌</span>
+      <h2 id="modalTitle">Nouvelle candidature</h2>
+    </div>
+    <div class="field"><label>🏢 Entreprise *</label><input id="fCompany" type="text" placeholder="Ex: L'Oréal, SNCF, Décathlon..."></div>
+    <div class="field"><label>💼 Poste / Mission</label><input id="fPoste" type="text" placeholder="Ex: Chargée de com, Développeuse..."></div>
+    <div class="field"><label>🏷️ Type *</label>
+      <select id="fType">
+        <option value="Job d'été">☀️ Job d'été</option>
+        <option value="Stage école">🎓 Stage école</option>
+        <option value="Alternance">🔄 Alternance</option>
+      </select>
+    </div>
+    <div class="field"><label>📍 Statut</label>
+      <select id="fStatus">
+        <option value="en-attente">⏳ En attente</option>
+        <option value="envoyée">📤 Envoyée</option>
+        <option value="relance">🔔 Relance</option>
+        <option value="entretien">🤝 Entretien</option>
+        <option value="acceptée">🎉 Acceptée</option>
+        <option value="refus">💔 Refus</option>
+      </select>
+    </div>
+    <div class="field"><label>📅 Date de candidature</label><input id="fDate" type="date"></div>
+    <div class="field"><label>📝 Notes</label><textarea id="fNote" placeholder="Contact RH, lien annonce, ressenti..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Annuler</button>
+      <button class="btn-save" onclick="saveCard()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'candidatures_girly_v2';
+let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let filter = 'Tous';
+let editId = null;
+let currentTab = 'candidatures';
+
+const typeEmoji = { "Job d'été":'☀️', "Stage école":'🎓', "Alternance":'🔄' };
+const typeTagClass = { "Job d'été":'tag-job', "Stage école":'tag-stage', "Alternance":'tag-alt' };
+const typeStripe = { "Job d'été":'stripe-job', "Stage école":'stripe-stage', "Alternance":'stripe-alt' };
+const statusInfo = {
+  'en-attente':{ label:'⏳ En attente', cls:'s-en-attente', color:'#fb923c' },
+  'envoyée':   { label:'📤 Envoyée',    cls:'s-envoyée',   color:'#c084fc' },
+  'relance':   { label:'🔔 Relance',    cls:'s-relance',   color:'#fbbf24' },
+  'entretien': { label:'🤝 Entretien',  cls:'s-entretien', color:'#34d399' },
+  'acceptée':  { label:'🎉 Acceptée',   cls:'s-acceptée',  color:'#22c55e' },
+  'refus':     { label:'💔 Refus',      cls:'s-refus',     color:'#94a3b8' },
+};
+const typeColors = { "Job d'été":'#fb923c', "Stage école":'#f472b6', "Alternance":'#34d399' };
+
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+/* ─── TAB SWITCH ─── */
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('panelCandidatures').style.display = tab === 'candidatures' ? 'block' : 'none';
+  const sp = document.getElementById('panelStats');
+  sp.style.display = tab === 'stats' ? 'block' : 'none';
+  sp.classList.toggle('visible', tab === 'stats');
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.textContent.includes(tab === 'candidatures' ? 'Candidatures' : 'Stat')));
+  if (tab === 'stats') renderStats();
+}
+
+/* ─── CARDS ─── */
+function render() {
+  const filtered = filter === 'Tous' ? data : data.filter(d => d.type === filter);
+  const cards = document.getElementById('cards');
+  if (filtered.length === 0) {
+    cards.innerHTML = `<div class="empty"><span class="empty-icon">🌸</span><p>Aucune candidature${filter !== 'Tous' ? ' pour ce filtre' : ''}.<br>Clique sur <b>✨ Ajouter</b> pour commencer !</p></div>`;
+    return;
+  }
+  cards.innerHTML = filtered.map((d, i) => {
+    const si = statusInfo[d.status] || { label:d.status, cls:'' };
+    return `<div class="card" data-type="${d.type}" style="animation-delay:${(i%8)*0.05}s">
+      <div class="card-stripe ${typeStripe[d.type]}"></div>
+      <span class="card-emoji">${typeEmoji[d.type]||'📄'}</span>
+      <div class="card-company">${d.company}</div>
+      <div class="card-poste">${d.poste||'Poste non précisé'}</div>
+      <div class="card-meta">
+        <span class="tag ${typeTagClass[d.type]}">${d.type}</span>
+        <span class="tag ${si.cls}">${si.label}</span>
+      </div>
+      ${d.date?`<div class="card-date">📅 ${new Date(d.date).toLocaleDateString('fr-FR')}</div>`:''}
+      ${d.note?`<div class="card-note">💬 ${d.note}</div>`:''}
+      <div class="card-actions">
+        <button class="btn-edit" onclick="openModal('${d.id}')">✏️ Modifier</button>
+        <button class="btn-del" onclick="deleteCard('${d.id}')">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setFilter(f) {
+  filter = f;
+  render();
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.includes(f) || (f==='Tous' && btn.textContent.includes('Tous')));
+  });
+}
+
+/* ─── STATS ─── */
+function renderStats() {
+  const el = document.getElementById('statsContent');
+  if (data.length === 0) {
+    el.innerHTML = `<div class="no-data"><span>🌸</span><p>Ajoute tes premières candidatures pour voir les stats !</p></div>`;
+    return;
+  }
+
+  const total = data.length;
+  const responded = data.filter(d => ['entretien','acceptée','refus'].includes(d.status)).length;
+  const txReponse = total ? Math.round(responded / total * 100) : 0;
+  const entretiens = data.filter(d => d.status === 'entretien' || d.status === 'acceptée').length;
+  const txConversion = total ? Math.round(entretiens / total * 100) : 0;
+  const acceptees = data.filter(d => d.status === 'acceptée').length;
+
+  // Type distribution
+  const types = ["Job d'été","Stage école","Alternance"];
+  const typeCounts = types.map(t => ({ t, n: data.filter(d => d.type === t).length }));
+
+  // Status distribution
+  const statuses = ['envoyée','en-attente','relance','entretien','acceptée','refus'];
+  const statusCounts = statuses.map(s => ({ s, n: data.filter(d => d.status === s).length })).filter(x => x.n > 0);
+  const maxStatus = Math.max(...statusCounts.map(x => x.n), 1);
+
+  // Timeline: candidatures par semaine (8 dernières semaines)
+  const weeks = buildWeeklyTimeline(data, 8);
+
+  // Donut SVG
+  const donutSVG = buildDonut(typeCounts, total);
+
+  el.innerHTML = `
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-icon">💌</div>
+        <div class="kpi-value">${total}</div>
+        <div class="kpi-label">Candidatures</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon">💬</div>
+        <div class="kpi-value">${txReponse}%</div>
+        <div class="kpi-label">Taux de réponse</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon">🤝</div>
+        <div class="kpi-value">${txConversion}%</div>
+        <div class="kpi-label">Taux entretien</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon">🎉</div>
+        <div class="kpi-value">${acceptees}</div>
+        <div class="kpi-label">Acceptée${acceptees>1?'s':''}</div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-card">
+      <div class="chart-title">📈 Candidatures par semaine</div>
+      ${buildTimelineSVG(weeks)}
+    </div>
+
+    <!-- Donut + Bar -->
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">🍩 Répartition par type</div>
+        <div class="donut-wrap">
+          ${donutSVG}
+          <div class="donut-legend">
+            ${typeCounts.map(({t,n}) => `
+              <div class="legend-item">
+                <span class="legend-dot" style="background:${typeColors[t]}"></span>
+                <span>${t}</span>
+                <span class="legend-pct">${n} (${total?Math.round(n/total*100):0}%)</span>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">📊 Par statut</div>
+        <div class="bar-list">
+          ${statusCounts.map(({s,n}) => {
+            const si = statusInfo[s];
+            const pct = Math.round(n/maxStatus*100);
+            return `<div class="bar-row">
+              <span class="bar-label">${si.label}</span>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:${pct}%;background:${si.color}"></div>
+              </div>
+              <span class="bar-count">${n}</span>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Animate bars after DOM insert
+  setTimeout(() => {
+    document.querySelectorAll('.bar-fill').forEach(b => {
+      const w = b.style.width;
+      b.style.width = '0';
+      requestAnimationFrame(() => { b.style.width = w; });
+    });
+  }, 50);
+}
+
+function buildDonut(typeCounts, total) {
+  const r = 52, cx = 60, cy = 60, stroke = 16;
+  const circ = 2 * Math.PI * r;
+  if (total === 0) return `<svg class="donut-svg" width="120" height="120"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#fce7f3" stroke-width="${stroke}"/></svg>`;
+  let offset = 0;
+  const slices = typeCounts.map(({t, n}) => {
+    const pct = n / total;
+    const dash = pct * circ;
+    const gap = circ - dash;
+    const slice = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${typeColors[t]}" stroke-width="${stroke}" stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-offset}" stroke-linecap="round" style="transition:stroke-dasharray 1s cubic-bezier(0.34,1.56,0.64,1)"/>`;
+    offset += dash;
+    return slice;
+  }).join('');
+  return `<svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg)">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#fce7f3" stroke-width="${stroke}"/>
+    ${slices}
+  </svg>`;
+}
+
+function buildWeeklyTimeline(data, nWeeks) {
+  const now = new Date();
+  const weeks = [];
+  for (let i = nWeeks - 1; i >= 0; i--) {
+    const start = new Date(now);
+    start.setDate(now.getDate() - i * 7 - now.getDay());
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    const label = start.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
+    const count = data.filter(d => {
+      if (!d.date) return false;
+      const dt = new Date(d.date);
+      return dt >= start && dt <= end;
+    }).length;
+    weeks.push({ label, count });
+  }
+  return weeks;
+}
+
+function buildTimelineSVG(weeks) {
+  const W = 600, H = 100, padL = 0, padR = 10, padT = 10, padB = 28;
+  const maxVal = Math.max(...weeks.map(w => w.count), 1);
+  const n = weeks.length;
+  const xStep = (W - padL - padR) / (n - 1 || 1);
+
+  const points = weeks.map((w, i) => {
+    const x = padL + i * xStep;
+    const y = padT + (1 - w.count / maxVal) * (H - padT - padB);
+    return { x, y, ...w };
+  });
+
+  const pathD = points.map((p, i) => (i === 0 ? `M${p.x},${p.y}` : `L${p.x},${p.y}`)).join(' ');
+  const areaD = `${pathD} L${points[points.length-1].x},${H-padB} L${points[0].x},${H-padB} Z`;
+
+  const labels = points.map((p, i) => i % 2 === 0
+    ? `<text x="${p.x}" y="${H - 4}" text-anchor="middle" font-size="9" fill="#b08fa0" font-family="Nunito,sans-serif">${p.label}</text>`
+    : '').join('');
+
+  const dots = points.map(p => p.count > 0
+    ? `<circle cx="${p.x}" cy="${p.y}" r="4" fill="#f472b6" stroke="white" stroke-width="2"/>
+       <title>${p.count} candidature${p.count>1?'s':''}</title>`
+    : '').join('');
+
+  return `<div class="timeline-wrap">
+    <svg class="timeline-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f472b6" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#f472b6" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="${areaD}" fill="url(#lg)"/>
+      <path d="${pathD}" fill="none" stroke="#f472b6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${labels}
+      ${dots}
+    </svg>
+  </div>`;
+}
+
+/* ─── MODAL ─── */
+function openModal(id = null) {
+  editId = id;
+  document.getElementById('modalIcon').textContent = id ? '✏️' : '💌';
+  document.getElementById('modalTitle').textContent = id ? 'Modifier' : 'Nouvelle candidature';
+  if (id) {
+    const d = data.find(x => x.id === id);
+    document.getElementById('fCompany').value = d.company;
+    document.getElementById('fPoste').value = d.poste || '';
+    document.getElementById('fType').value = d.type;
+    document.getElementById('fStatus').value = d.status;
+    document.getElementById('fDate').value = d.date || '';
+    document.getElementById('fNote').value = d.note || '';
+  } else {
+    document.getElementById('fCompany').value = '';
+    document.getElementById('fPoste').value = '';
+    document.getElementById('fType').value = "Job d'été";
+    document.getElementById('fStatus').value = 'en-attente';
+    document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('fNote').value = '';
+  }
+  document.getElementById('modalBg').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modalBg').classList.remove('open'); editId = null; }
+
+function saveCard() {
+  const company = document.getElementById('fCompany').value.trim();
+  if (!company) { alert("💔 Le nom de l'entreprise est requis !"); return; }
+  const entry = {
+    id: editId || Date.now().toString(),
+    company,
+    poste: document.getElementById('fPoste').value.trim(),
+    type: document.getElementById('fType').value,
+    status: document.getElementById('fStatus').value,
+    date: document.getElementById('fDate').value,
+    note: document.getElementById('fNote').value.trim()
+  };
+  if (editId) { const idx = data.findIndex(x => x.id === editId); data[idx] = entry; }
+  else { data.unshift(entry); }
+  save(); closeModal(); render();
+  spawnSparkles();
+}
+
+function deleteCard(id) {
+  if (!confirm('Supprimer cette candidature ? 💔')) return;
+  data = data.filter(x => x.id !== id);
+  save(); render();
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'mes_candidatures.json';
+  a.click();
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const imported = JSON.parse(ev.target.result);
+      if (Array.isArray(imported)) {
+        data = [...imported, ...data.filter(d => !imported.find(i => i.id === d.id))];
+        save(); render();
+        alert(`🎉 ${imported.length} candidature(s) importée(s) !`);
+      }
+    } catch { alert('💔 Fichier invalide !'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function spawnSparkles() {
+  const emojis = ['✨','🌸','💫','⭐','🌟','💖','🎀'];
+  for (let i = 0; i < 10; i++) {
+    setTimeout(() => {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      s.style.left = (15 + Math.random() * 70) + 'vw';
+      s.style.top = (20 + Math.random() * 60) + 'vh';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 900);
+    }, i * 70);
+  }
+}
+
+document.getElementById('modalBg').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalBg')) closeModal();
+});
+
+// Init
+document.getElementById('panelStats').style.display = 'none';
+render();
+</script>
+</body>
+</html>
