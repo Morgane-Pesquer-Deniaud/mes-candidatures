@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospection Alternance MIAGE — Morgane Pesquer-Deniaud</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ec;
+    --bg2: #edeae2;
+    --ink: #1a1814;
+    --ink2: #5a5650;
+    --ink3: #9a9590;
+    --accent: #2d5a3d;
+    --accent2: #c8a84b;
+    --accent3: #8b2f2f;
+    --accent4: #2d4a7a;
+    --accent5: #6b3d8b;
+    --border: rgba(26,24,20,0.12);
+    --card: #ffffff;
+    --radius: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 3rem 4rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(200,168,75,0.08);
+    pointer-events: none;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 200px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(45,90,61,0.12);
+    pointer-events: none;
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .name-block h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    letter-spacing: -0.02em;
+    color: var(--bg);
+    line-height: 1;
+  }
+  .name-block h1 em {
+    color: var(--accent2);
+    font-style: italic;
+  }
+  .name-block p {
+    font-size: 0.85rem;
+    color: rgba(245,242,236,0.55);
+    margin-top: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .stats-header {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+  }
+  .stat-h {
+    text-align: right;
+  }
+  .stat-h .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .stat-h .lbl {
+    font-size: 0.7rem;
+    color: rgba(245,242,236,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'DM Mono', monospace;
+  }
+  .header-bottom {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(245,242,236,0.12);
+    display: flex;
+    gap: 3rem;
+    font-size: 0.78rem;
+    color: rgba(245,242,236,0.45);
+    font-family: 'DM Mono', monospace;
+    flex-wrap: wrap;
+  }
+  .header-bottom span b { color: rgba(245,242,236,0.7); }
+
+  /* CONTROLS */
+  .controls {
+    padding: 1.5rem 4rem;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 340px;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.35;
+  }
+  #search {
+    width: 100%;
+    padding: 9px 12px 9px 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    outline: none;
+  }
+  #search:focus { border-color: var(--accent); }
+
+  .filter-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: var(--card);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    color: var(--ink2);
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--ink2); }
+  .filter-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .filter-btn.active.f-esn { background: var(--accent); border-color: var(--accent); }
+  .filter-btn.active.f-big { background: var(--accent4); border-color: var(--accent4); }
+  .filter-btn.active.f-pme { background: var(--accent2); border-color: var(--accent2); color: var(--ink); }
+  .filter-btn.active.f-pub { background: var(--accent5); border-color: var(--accent5); }
+  .filter-btn.active.f-cyber { background: var(--accent3); border-color: var(--accent3); }
+
+  .count-info {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink3);
+  }
+
+  /* MAIN */
+  main {
+    padding: 2rem 4rem 4rem;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--ink2);
+    font-family: 'DM Mono', monospace;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+  }
+  .dot-big { background: var(--accent4); }
+  .dot-esn { background: var(--accent); }
+  .dot-pme { background: var(--accent2); }
+  .dot-pub { background: var(--accent5); }
+  .dot-cyber { background: var(--accent3); }
+
+  /* SECTION */
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-title .day-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--ink3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--bg2);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .new-badge-section {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    background: var(--accent2);
+    color: var(--ink);
+    padding: 3px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+  }
+  thead tr {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    font-weight: 500;
+  }
+  tbody tr {
+    border-bottom: 1px solid rgba(26,24,20,0.05);
+    transition: background 0.1s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(26,24,20,0.025); }
+  tbody tr.hidden { display: none; }
+  td {
+    padding: 12px 14px;
+    vertical-align: top;
+  }
+  .company-name {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 0.88rem;
+  }
+  .company-sub {
+    font-size: 0.73rem;
+    color: var(--ink3);
+    margin-top: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+  .type-badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .b-big { background: rgba(45,74,122,0.1); color: var(--accent4); }
+  .b-esn { background: rgba(45,90,61,0.1); color: var(--accent); }
+  .b-pme { background: rgba(200,168,75,0.15); color: #7a6020; }
+  .b-pub { background: rgba(107,61,139,0.1); color: var(--accent5); }
+  .b-cyber { background: rgba(139,47,47,0.1); color: var(--accent3); }
+
+  .link-block a {
+    display: inline-block;
+    color: var(--accent4);
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    text-decoration: none;
+    margin-bottom: 3px;
+  }
+  .link-block a:hover { text-decoration: underline; }
+  .link-hint {
+    font-size: 0.68rem;
+    color: var(--ink3);
+    font-family: 'DM Mono', monospace;
+    margin-top: 2px;
+  }
+  .why {
+    font-size: 0.8rem;
+    color: var(--ink2);
+    line-height: 1.45;
+  }
+  .why strong { color: var(--ink); font-weight: 600; }
+  .num-cell {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink3);
+    width: 36px;
+  }
+  .new-row td { background: rgba(200,168,75,0.04); }
+  .new-row .company-name::after {
+    content: ' NEW';
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    background: var(--accent2);
+    color: var(--ink);
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.06em;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(245,242,236,0.45);
+    padding: 2rem 4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer b { color: rgba(245,242,236,0.7); }
+
+  /* NO RESULTS */
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--ink3);
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    header, .controls, main, footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .stats-header { flex-direction: column; align-items: flex-start; }
+    .name-block h1 { font-size: 2rem; }
+    th:nth-child(4), td:nth-child(4) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="name-block">
+      <h1>Morgane <em>Pesquer-Deniaud</em></h1>
+      <p>// Prospection alternance · L3 MIAGE → M2 · Nantes · 2026–2029</p>
+    </div>
+    <div class="stats-header">
+      <div class="stat-h">
+        <div class="num">80</div>
+        <div class="lbl">Entreprises</div>
+      </div>
+      <div class="stat-h">
+        <div class="num">3</div>
+        <div class="lbl">Ans visés</div>
+      </div>
+    </div>
+  </div>
+  <div class="header-bottom">
+    <span><b>Stack :</b> Python · PHP · Symfony · SQL · JS · HTML/CSS</span>
+    <span><b>Atouts :</b> Cybersécurité · UX/WCAG · Gestion projet</span>
+    <span><b>Objectif :</b> Alternance sept. 2026 (L3 → M1 → M2)</span>
+    <span><b>Contact :</b> morgane.pesquerdeniaud@gmail.com</span>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="search" placeholder="Rechercher une entreprise..." oninput="filterTable()">
+  </div>
+  <div class="filter-group">
+    <button class="filter-btn active" data-type="all" onclick="setFilter('all',this)">Tout</button>
+    <button class="filter-btn f-big" data-type="big" onclick="setFilter('big',this)">Grande ESN</button>
+    <button class="filter-btn f-esn" data-type="esn" onclick="setFilter('esn',this)">ESN locale</button>
+    <button class="filter-btn f-pme" data-type="pme" onclick="setFilter('pme',this)">PME / Agence</button>
+    <button class="filter-btn f-pub" data-type="pub" onclick="setFilter('pub',this)">Secteur public</button>
+    <button class="filter-btn f-cyber" data-type="cyber" onclick="setFilter('cyber',this)">Cybersécurité</button>
+    <button class="filter-btn" data-type="new" onclick="setFilter('new',this)">🆕 Nouvelles</button>
+  </div>
+  <span class="count-info" id="count-info">80 / 80 entreprises</span>
+</div>
+
+<main>
+  <div class="legend">
+    <div class="legend-item"><span class="dot dot-big"></span> Grande ESN / Groupe</div>
+    <div class="legend-item"><span class="dot dot-esn"></span> ESN locale Nantes</div>
+    <div class="legend-item"><span class="dot dot-pme"></span> PME / Agence / Start-up</div>
+    <div class="legend-item"><span class="dot dot-pub"></span> Secteur public / Collectivité</div>
+    <div class="legend-item"><span class="dot dot-cyber"></span> Cybersécurité</div>
+  </div>
+
+  <!-- JOUR 1 -->
+  <div class="section-title"><span>Lundi</span><span class="day-num">Jour 01 — #01 à #10</span></div>
+  <div class="table-wrap">
+    <table id="table-main">
+      <thead>
+        <tr>
+          <th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th>
+        </tr>
+      </thead>
+      <tbody>
+
+<tr data-type="big" data-name="sopra steria">
+  <td class="num-cell">01</td>
+  <td><div class="company-name">Sopra Steria</div><div class="company-sub">Agence Ouest — 160 collaborateurs · Saint-Herblain</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://careers.soprasteria.com" target="_blank">careers.soprasteria.com</a><div class="link-hint">Filtre : alternance + Nantes</div></td>
+  <td class="why">Java, SI, secteurs variés (transport, banque). <strong>500 alternances/an</strong> en France. Offres régulières tout au long de l'année.</td>
+</tr>
+
+<tr data-type="big" data-name="capgemini">
+  <td class="num-cell">02</td>
+  <td><div class="company-name">Capgemini</div><div class="company-sub">Présence forte Nantes / Saint-Herblain</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.capgemini.com/fr-fr/carrieres/" target="_blank">capgemini.com/carrieres</a><div class="link-hint">LinkedIn : "alternance Capgemini Nantes"</div></td>
+  <td class="why">Projets agile, SI, data — correspond parfaitement au parcours <strong>MIAGE DSN</strong>.</td>
+</tr>
+
+<tr data-type="big" data-name="cgi france">
+  <td class="num-cell">03</td>
+  <td><div class="company-name">CGI France</div><div class="company-sub">Bureau Nantes actif</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.cgi.com/france/fr-fr/carrieres" target="_blank">cgi.com/france/carrieres</a></td>
+  <td class="why">Systèmes d'information, Java, SQL. Alternances bien structurées sur 2-3 ans.</td>
+</tr>
+
+<tr data-type="big" data-name="atos eviden">
+  <td class="num-cell">04</td>
+  <td><div class="company-name">Atos / Eviden</div><div class="company-sub">Cybersécurité + Systèmes d'information</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://careers.eviden.com" target="_blank">careers.eviden.com</a></td>
+  <td class="why">Axe cybersécurité fort. Ton <strong>MOOC ANSSI</strong> est un argument clé ici. Différenciateur rare.</td>
+</tr>
+
+<tr data-type="big" data-name="accenture">
+  <td class="num-cell">05</td>
+  <td><div class="company-name">Accenture France</div><div class="company-sub">Bureau Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.accenture.com/fr-fr/careers" target="_blank">accenture.com/carrieres</a></td>
+  <td class="why">Transformation digitale, gestion SI. Débouchés M2 excellents. Culture alternance forte.</td>
+</tr>
+
+<tr data-type="esn" data-name="zenika">
+  <td class="num-cell">06</td>
+  <td><div class="company-name">Zenika Nantes</div><div class="company-sub">ESN agile haut de gamme</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.zenika.com/offres" target="_blank">zenika.com/offres</a><div class="link-hint">Candidature spontanée bienvenue</div></td>
+  <td class="why">Profil polyvalent valorisé. Projets innovants. Bonne réputation pour l'accompagnement alternants.</td>
+</tr>
+
+<tr data-type="esn" data-name="thetribe">
+  <td class="num-cell">07</td>
+  <td><div class="company-name">TheTribe</div><div class="company-sub">Studio digital Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.thetribe.io/jobs" target="_blank">thetribe.io/jobs</a></td>
+  <td class="why"><strong>PHP/Symfony</strong> = ton stack actuel. Projets web variés, petite équipe, montée en compétences rapide.</td>
+</tr>
+
+<tr data-type="esn" data-name="consort group consortis">
+  <td class="num-cell">08</td>
+  <td><div class="company-name">Consort Group (Consortis)</div><div class="company-sub">+30 ans · données & infra · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.consortgroup.com/recrutement" target="_blank">consortgroup.com</a></td>
+  <td class="why">Valorisation des données + tes <strong>Python/SQL à 5/5</strong> = match parfait. Entreprise stable.</td>
+</tr>
+
+<tr data-type="esn" data-name="extia">
+  <td class="num-cell">09</td>
+  <td><div class="company-name">Extia</div><div class="company-sub">Saint-Herblain · ESN à taille humaine</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.extia.fr/recrutement" target="_blank">extia.fr/recrutement</a></td>
+  <td class="why">Java JEE, bonne culture alternance, accompagnement pédagogique reconnu.</td>
+</tr>
+
+<tr data-type="big" data-name="credit agricole technologies services">
+  <td class="num-cell">10</td>
+  <td><div class="company-name">Crédit Agricole Technologies & Services</div><div class="company-sub">DSI interne CA — Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.credit-agricole.com/recrutement" target="_blank">credit-agricole.com/recrutement</a></td>
+  <td class="why">Java/Python, agilité, secteur bancaire. <strong>Offres récurrentes</strong> alternance longue (2-3 ans).</td>
+</tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- JOUR 2 -->
+  <div class="section-title"><span>Mardi</span><span class="day-num">Jour 02 — #11 à #20</span></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th></tr></thead><tbody>
+
+<tr data-type="big" data-name="totalenergies as24">
+  <td class="num-cell">11</td>
+  <td><div class="company-name">TotalEnergies (AS 24)</div><div class="company-sub">Alternance Full Stack — Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://totalenergies.com/fr/groupe/recrutement" target="_blank">totalenergies.com/recrutement</a></td>
+  <td class="why">Offre Full Stack active mars 2026. Correspond à ton profil <strong>front/back PHP+JS</strong>.</td>
+</tr>
+
+<tr data-type="big" data-name="bpce natixis banque">
+  <td class="num-cell">12</td>
+  <td><div class="company-name">Groupe BPCE / Natixis</div><div class="company-sub">DSI banque — grand site Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://recrutement.bpce.fr" target="_blank">recrutement.bpce.fr</a></td>
+  <td class="why">Alternances SI longue durée (2-3 ans possibles). Secteur financier = débouchés MIAGE privilégiés.</td>
+</tr>
+
+<tr data-type="pub" data-name="nantes metropole dsi">
+  <td class="num-cell">13</td>
+  <td><div class="company-name">Nantes Métropole DSI</div><div class="company-sub">Collectivité · transformation numérique</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://www.nantesmetropole.fr/recrutement" target="_blank">nantesmetropole.fr/recrutement</a><div class="link-hint">Candidature spontanée DSI</div></td>
+  <td class="why">SI publics, <strong>accessibilité WCAG</strong> (déjà dans tes compétences !), rythme compatible MIAGE.</td>
+</tr>
+
+<tr data-type="pub" data-name="chu nantes hopital">
+  <td class="num-cell">14</td>
+  <td><div class="company-name">CHU de Nantes — DSI</div><div class="company-sub">Hôpitaux · digitalisation santé</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://www.chu-nantes.fr/travailler-au-chu" target="_blank">chu-nantes.fr/travailler</a><div class="link-hint">Email DRH si pas d'offre visible</div></td>
+  <td class="why">SI santé = secteur porteur, alternances peu concurrencées, cybersécurité très valorisée.</td>
+</tr>
+
+<tr data-type="pub" data-name="pays de la loire region">
+  <td class="num-cell">15</td>
+  <td><div class="company-name">Région Pays de la Loire — DSI</div><div class="company-sub">Collectivité régionale</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://www.paysdelaloire.fr/la-region/travailler-a-la-region" target="_blank">paysdelaloire.fr/travailler</a></td>
+  <td class="why">Projets numériques ambitieux (smart city, open data), stabilité. Très adapté MIAGE.</td>
+</tr>
+
+<tr data-type="big" data-name="orange business services">
+  <td class="num-cell">16</td>
+  <td><div class="company-name">Orange Business Services</div><div class="company-sub">Télécom / SI entreprises</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://orange.jobs" target="_blank">orange.jobs</a><div class="link-hint">Filtre : alternance + Loire-Atlantique</div></td>
+  <td class="why">SI, cloud, cybersécurité = <strong>triple alignement</strong> avec ton profil. Alternances structurées.</td>
+</tr>
+
+<tr data-type="esn" data-name="sii groupe">
+  <td class="num-cell">17</td>
+  <td><div class="company-name">Groupe SII Nantes</div><div class="company-sub">Ingénierie logicielle · présence Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.groupe-sii.com/fr/nous-rejoindre/" target="_blank">groupe-sii.com/nous-rejoindre</a></td>
+  <td class="why">Ingénierie logicielle, alternances régulières compatibles MIAGE.</td>
+</tr>
+
+<tr data-type="esn" data-name="tessi">
+  <td class="num-cell">18</td>
+  <td><div class="company-name">Tessi</div><div class="company-sub">Digitalisation documents & SI · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.tessi.eu/fr/carrieres/" target="_blank">tessi.eu/carrieres</a></td>
+  <td class="why">PHP, Python, gestion de données — correspond exactement à ton stack technique.</td>
+</tr>
+
+<tr data-type="esn" data-name="itesoft helpline">
+  <td class="num-cell">19</td>
+  <td><div class="company-name">Itesoft / Helpline</div><div class="company-sub">Automatisation SI entreprises</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.itesoft.com/fr/carrieres" target="_blank">itesoft.com/carrieres</a><div class="link-hint">Candidature spontanée recommandée</div></td>
+  <td class="why">Gestion de processus, SI, peu de candidats alternants = <strong>opportunité réelle</strong>.</td>
+</tr>
+
+<tr data-type="esn" data-name="kaibee">
+  <td class="num-cell">20</td>
+  <td><div class="company-name">Kaibee</div><div class="company-sub">Knowledge management · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.kaibee.io" target="_blank">kaibee.io</a><div class="link-hint">Contact via LinkedIn direct</div></td>
+  <td class="why">Petite structure agile, profil polyvalent valorisé, belle montée en compétence.</td>
+</tr>
+
+  </tbody></table></div>
+
+  <!-- JOUR 3 -->
+  <div class="section-title"><span>Mercredi</span><span class="day-num">Jour 03 — #21 à #30</span></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th></tr></thead><tbody>
+
+<tr data-type="big" data-name="airbus atlantic bouguenais">
+  <td class="num-cell">21</td>
+  <td><div class="company-name">Airbus Atlantic</div><div class="company-sub">Industrie aéro — DSI · Bouguenais</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.airbus.com/en/careers" target="_blank">airbus.com/careers</a></td>
+  <td class="why">BI/DATA, développement SI industriel — alternance longue <strong>3 ans possible</strong>.</td>
+</tr>
+
+<tr data-type="big" data-name="hop air france bouguenais">
+  <td class="num-cell">22</td>
+  <td><div class="company-name">HOP! Air France</div><div class="company-sub">Compagnie aérienne · DSI locale · Bouguenais</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://careers.airfranceklm.com" target="_blank">careers.airfranceklm.com</a><div class="link-hint">Offre BI-DATA active mars 2026</div></td>
+  <td class="why"><strong>Python + SQL</strong> = tes atouts directs. Offre BI/DATA en cours.</td>
+</tr>
+
+<tr data-type="big" data-name="naval group defense">
+  <td class="num-cell">23</td>
+  <td><div class="company-name">Naval Group</div><div class="company-sub">Défense navale · Nantes / Saint-Nazaire</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.naval-group.com/fr/nous-rejoindre" target="_blank">naval-group.com/rejoindre</a></td>
+  <td class="why">Cybersécurité SI défense. Ton <strong>MOOC ANSSI</strong> est un vrai différenciateur ici.</td>
+</tr>
+
+<tr data-type="big" data-name="chantiers atlantique stx">
+  <td class="num-cell">24</td>
+  <td><div class="company-name">Chantiers de l'Atlantique</div><div class="company-sub">Industrie navale · SI industriel</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.chantiers-atlantique.com/carrieres" target="_blank">chantiers-atlantique.com</a></td>
+  <td class="why">Grands projets SI, peu concurrencés par les alternants MIAGE = avantage concurrentiel.</td>
+</tr>
+
+<tr data-type="pme" data-name="sparklane data">
+  <td class="num-cell">25</td>
+  <td><div class="company-name">Sparklane</div><div class="company-sub">Data B2B · start-up Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Start-up</span></td>
+  <td class="link-block"><a href="https://www.welcometothejungle.com/fr/companies/sparklane" target="_blank">WelcomeToTheJungle : Sparklane</a></td>
+  <td class="why">Data, Python, API — start-up avec de vrais projets techniques en alternance.</td>
+</tr>
+
+<tr data-type="pme" data-name="waven fintech paiement">
+  <td class="num-cell">26</td>
+  <td><div class="company-name">Waven (ex-Orange Bank)</div><div class="company-sub">Fintech paiement · Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Start-up</span></td>
+  <td class="link-block"><a href="https://www.welcometothejungle.com/fr/companies/waven" target="_blank">WelcomeToTheJungle : Waven</a></td>
+  <td class="why">Développement, sécurité paiement, bonne culture tech. Profil full-stack bienvenu.</td>
+</tr>
+
+<tr data-type="esn" data-name="niji nantes ux si">
+  <td class="num-cell">27</td>
+  <td><div class="company-name">Niji</div><div class="company-sub">ESN digitale · projets UX/SI · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.niji.fr/carrieres" target="_blank">niji.fr/carrieres</a></td>
+  <td class="why">UX + SI + web : ton profil <strong>front/back ET Figma/WCAG</strong> est vraiment rare et valorisé ici.</td>
+</tr>
+
+<tr data-type="esn" data-name="micropole data bi">
+  <td class="num-cell">28</td>
+  <td><div class="company-name">Micropole</div><div class="company-sub">Data / BI / transformation SI · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.micropole.com/carrieres" target="_blank">micropole.com/carrieres</a></td>
+  <td class="why">Axe données fort. <strong>Python, SQL, PostgreSQL à 5/5</strong>. MIAGE très apprécié dans ce type de structure.</td>
+</tr>
+
+<tr data-type="esn" data-name="smile open source php symfony">
+  <td class="num-cell">29</td>
+  <td><div class="company-name">Smile Open Source Solutions</div><div class="company-sub">Intégrateur open source · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.smile.eu/fr/carrieres" target="_blank">smile.eu/carrieres</a></td>
+  <td class="why"><strong>PHP, Symfony, WordPress</strong> = exactement tes technos actuelles. Prise de poste rapide.</td>
+</tr>
+
+<tr data-type="big" data-name="wavestone conseil transformation">
+  <td class="num-cell">30</td>
+  <td><div class="company-name">Wavestone</div><div class="company-sub">Conseil transformation digitale</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.wavestone.com/fr/carrieres/" target="_blank">wavestone.com/carrieres</a></td>
+  <td class="why">Conseil SI, cybersécurité, gestion projet — trio parfait pour MIAGE parcours MCSN.</td>
+</tr>
+
+  </tbody></table></div>
+
+  <!-- JOUR 4 -->
+  <div class="section-title"><span>Jeudi</span><span class="day-num">Jour 04 — #31 à #40</span></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th></tr></thead><tbody>
+
+<tr data-type="big" data-name="sncf voyageurs transport">
+  <td class="num-cell">31</td>
+  <td><div class="company-name">SNCF Voyageurs DSI</div><div class="company-sub">Transport public · DSI Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.emploi.sncf.com" target="_blank">emploi.sncf.com</a></td>
+  <td class="why">Java (Sopra Steria cite SNCF Nantes), alternances bien structurées, longue durée.</td>
+</tr>
+
+<tr data-type="big" data-name="decathlon dsi tech">
+  <td class="num-cell">32</td>
+  <td><div class="company-name">Decathlon DSI</div><div class="company-sub">Bureau tech Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://careers.decathlon.com" target="_blank">careers.decathlon.com</a></td>
+  <td class="why">Équipes tech agiles, projets e-commerce/data, profil full-stack bienvenu.</td>
+</tr>
+
+<tr data-type="pub" data-name="edf energie">
+  <td class="num-cell">33</td>
+  <td><div class="company-name">EDF — Direction Régionale PDL</div><div class="company-sub">Énergie · SI & cybersécurité</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://recrutement.edf.com" target="_blank">recrutement.edf.com</a></td>
+  <td class="why">Axe <strong>cybersécurité SI critique</strong>. Ton profil ANSSI mis en avant naturellement.</td>
+</tr>
+
+<tr data-type="big" data-name="stef logistique">
+  <td class="num-cell">34</td>
+  <td><div class="company-name">Stef</div><div class="company-sub">Logistique agroalimentaire · DSI Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.stef.com/fr/carrieres" target="_blank">stef.com/carrieres</a></td>
+  <td class="why">SI logistique, Python utile. <strong>Peu de candidats MIAGE = avantage</strong> concurrentiel fort.</td>
+</tr>
+
+<tr data-type="big" data-name="capgemini engineering altran">
+  <td class="num-cell">35</td>
+  <td><div class="company-name">Capgemini Engineering (ex-Altran)</div><div class="company-sub">Ingénierie technique · Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.capgemini.com/fr-fr/carrieres/capgemini-engineering/" target="_blank">capgemini.com/engineering</a></td>
+  <td class="why">SI industriels — si tu vises M2 DSN (développement systèmes numériques).</td>
+</tr>
+
+<tr data-type="esn" data-name="umanis data si">
+  <td class="num-cell">36</td>
+  <td><div class="company-name">Umanis</div><div class="company-sub">Data · SI · conseil digital · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.umanis.com/carrieres" target="_blank">umanis.com/carrieres</a></td>
+  <td class="why">Data engineering, <strong>Python, SQL</strong> — profil parfait pour leurs missions.</td>
+</tr>
+
+<tr data-type="cyber" data-name="neurones cybersecurite infogérance">
+  <td class="num-cell">37</td>
+  <td><div class="company-name">Neurones IT</div><div class="company-sub">Infogérance · cybersécurité · SI</div></td>
+  <td><span class="type-badge b-cyber">Cybersécurité</span></td>
+  <td class="link-block"><a href="https://www.neurones-it.com/nous-rejoindre/" target="_blank">neurones-it.com/rejoindre</a></td>
+  <td class="why">Cybersécurité + infogérance = tes deux axes <strong>SIO + MIAGE</strong> valorisés simultanément.</td>
+</tr>
+
+<tr data-type="esn" data-name="infotel java si">
+  <td class="num-cell">38</td>
+  <td><div class="company-name">Infotel</div><div class="company-sub">Services logiciels · Java/SI · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.infotel.com/carrieres/" target="_blank">infotel.com/carrieres</a></td>
+  <td class="why">Java, gestion de projet. Alternances longues acceptées. <strong>MIAGE apprécié</strong>.</td>
+</tr>
+
+<tr data-type="pub" data-name="soluris collectivite numerique">
+  <td class="num-cell">39</td>
+  <td><div class="company-name">Soluris</div><div class="company-sub">Syndicat mixte numérique collectivités · Vendée/44</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://www.soluris.fr/recrutement" target="_blank">soluris.fr/recrutement</a></td>
+  <td class="why">SI collectivités, cybersécurité. Peu connu = <strong>quasi pas de concurrence</strong> en alternance.</td>
+</tr>
+
+<tr data-type="pme" data-name="cerfrance comptabilite si">
+  <td class="num-cell">40</td>
+  <td><div class="company-name">Cerfrance Loire-Atlantique</div><div class="company-sub">Expertise comptable + SI · La Chapelle-sur-Erdre</div></td>
+  <td><span class="type-badge b-pme">PME / Agence</span></td>
+  <td class="link-block"><a href="https://www.cerfrance.fr/loire-atlantique/recrutement" target="_blank">cerfrance.fr/loire-atlantique</a></td>
+  <td class="why"><strong>Proche de chez toi !</strong> SI gestion, droit = synergie MIAGE parfaite. Offre Indeed récente.</td>
+</tr>
+
+  </tbody></table></div>
+
+  <!-- JOUR 5 -->
+  <div class="section-title"><span>Vendredi</span><span class="day-num">Jour 05 — #41 à #50</span></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th></tr></thead><tbody>
+
+<tr data-type="pme" data-name="provigis legal tech">
+  <td class="num-cell">41</td>
+  <td><div class="company-name">Provigis</div><div class="company-sub">Legal tech · conformité numérique · Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Agence</span></td>
+  <td class="link-block"><a href="https://www.provigis.com/carrieres/" target="_blank">provigis.com/carrieres</a><div class="link-hint">Candidature spontanée</div></td>
+  <td class="why">Conformité SI, Python, PHP. Secteur peu concurrencé, bon accueil alternants.</td>
+</tr>
+
+<tr data-type="pme" data-name="payfit rh tech">
+  <td class="num-cell">42</td>
+  <td><div class="company-name">PayFit</div><div class="company-sub">RH tech / paie numérique · bureau Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Start-up</span></td>
+  <td class="link-block"><a href="https://payfit.com/fr/carrieres/" target="_blank">payfit.com/carrieres</a></td>
+  <td class="why">Start-up tech en croissance. Python, API. Bonne culture alternance.</td>
+</tr>
+
+<tr data-type="esn" data-name="adn ouest agence digitale nantaise">
+  <td class="num-cell">43</td>
+  <td><div class="company-name">ADN Ouest</div><div class="company-sub">Agence Digitale Nantaise · partenaire MIAGE</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.adnouest.fr" target="_blank">adnouest.fr</a><div class="link-hint">Contact direct via site ou LinkedIn</div></td>
+  <td class="why"><strong>Partenaire historique MIAGE Nantes</strong> — mentionné dans le programme officiel.</td>
+</tr>
+
+<tr data-type="pme" data-name="septeo legal tech dématérialisation">
+  <td class="num-cell">44</td>
+  <td><div class="company-name">Septeo (ex-Itesoft Nantes)</div><div class="company-sub">Legal tech · dématérialisation</div></td>
+  <td><span class="type-badge b-pme">PME / Agence</span></td>
+  <td class="link-block"><a href="https://www.septeo.com/recrutement" target="_blank">septeo.com/recrutement</a></td>
+  <td class="why">Dématérialisation + SI = MIAGE tout indiqué. <strong>PHP/Python</strong> valorisés.</td>
+</tr>
+
+<tr data-type="esn" data-name="dawan formation it">
+  <td class="num-cell">45</td>
+  <td><div class="company-name">Dawan</div><div class="company-sub">Formation + projets SI · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.dawan.fr/recrutement" target="_blank">dawan.fr/recrutement</a></td>
+  <td class="why">Offres régulières alternance toutes filières info, rythme souple.</td>
+</tr>
+
+<tr data-type="cyber" data-name="securitas technology securite">
+  <td class="num-cell">46</td>
+  <td><div class="company-name">Securitas Technology</div><div class="company-sub">Sécurité physique + numérique · Nantes</div></td>
+  <td><span class="type-badge b-cyber">Cybersécurité</span></td>
+  <td class="link-block"><a href="https://www.securitas.fr/carrieres/" target="_blank">securitas.fr/carrieres</a><div class="link-hint">Candidature spontanée DSI</div></td>
+  <td class="why">Cybersécurité + systèmes. Ton axe <strong>ANSSI très valorisé</strong> ici.</td>
+</tr>
+
+<tr data-type="pub" data-name="kerialis protection sociale">
+  <td class="num-cell">47</td>
+  <td><div class="company-name">Kerialis</div><div class="company-sub">Protection sociale · SI Nantes</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://www.kerialis.fr/carrieres" target="_blank">kerialis.fr/carrieres</a><div class="link-hint">Candidature spontanée recommandée</div></td>
+  <td class="why">SI gestion, base de données. Pas concurrencé, secteur stable, alternances longues.</td>
+</tr>
+
+<tr data-type="big" data-name="bearing point conseil">
+  <td class="num-cell">48</td>
+  <td><div class="company-name">BearingPoint France</div><div class="company-sub">Conseil management & IT</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.bearingpoint.com/fr-fr/carrieres/" target="_blank">bearingpoint.com/carrieres</a></td>
+  <td class="why">Management SI, transformation digitale = cœur du master MIAGE parcours MCSN.</td>
+</tr>
+
+<tr data-type="pme" data-name="sca ouest logistique">
+  <td class="num-cell">49</td>
+  <td><div class="company-name">Sca-Ouest</div><div class="company-sub">Saint-Étienne de Montluc · Tu les connais déjà !</div></td>
+  <td><span class="type-badge b-pme">PME / Agence</span></td>
+  <td class="link-block"><div class="link-hint">Contact direct RH — relation existante</div></td>
+  <td class="why"><strong>Avantage énorme :</strong> tu les connais, ils te connaissent. Propose une alternance SI/gestion.</td>
+</tr>
+
+<tr data-type="pme" data-name="sparkk agence web nantes">
+  <td class="num-cell">50</td>
+  <td><div class="company-name">Sparkk</div><div class="company-sub">Agence digitale multidisciplinaire · Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Agence</span></td>
+  <td class="link-block"><a href="https://sparkk.fr" target="_blank">sparkk.fr</a><div class="link-hint">Tu les avais déjà contactés !</div></td>
+  <td class="why">Agence stratégie + interface + développement depuis 2013. Profil technique ET créatif = rare.</td>
+</tr>
+
+  </tbody></table></div>
+
+  <!-- ===== NOUVELLES 30 ENTREPRISES ===== -->
+  <div class="section-title">
+    <span>Semaine 2</span>
+    <span class="day-num">Nouvelles — #51 à #80</span>
+    <span class="new-badge-section">+ 30 nouvelles</span>
+  </div>
+
+  <!-- JOUR 6 -->
+  <div class="section-title" style="margin-top:1.5rem;font-size:0.95rem;border-bottom-style:dashed;"><span>Lundi S2</span><span class="day-num">#51 à #56</span></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th></tr></thead><tbody>
+
+<tr class="new-row" data-type="big" data-name="la poste numérique">
+  <td class="num-cell">51</td>
+  <td><div class="company-name">La Poste — DSI Groupe</div><div class="company-sub">Transformation numérique · e-services</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://laposterecrute.fr" target="_blank">laposterecrute.fr</a><div class="link-hint">Filtre : alternance informatique Nantes</div></td>
+  <td class="why">SI national, dématérialisation, cybersécurité. Alternances longues (jusqu'à 3 ans). Entreprise très stable pour L3→M2.</td>
+</tr>
+
+<tr class="new-row" data-type="big" data-name="maif mutuelle assurance si">
+  <td class="num-cell">52</td>
+  <td><div class="company-name">MAIF — Direction Numérique</div><div class="company-sub">Assurance mutualiste · bureau Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://emploi.maif.fr" target="_blank">emploi.maif.fr</a></td>
+  <td class="why">Transformation numérique assurance. Valeurs fortes, SI interne conséquent, alternances sur plusieurs années.</td>
+</tr>
+
+<tr class="new-row" data-type="big" data-name="groupama assurance si">
+  <td class="num-cell">53</td>
+  <td><div class="company-name">Groupama Loire Bretagne</div><div class="company-sub">Assurance · DSI régionale · Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.groupama.com/fr/nos-offres-emploi/" target="_blank">groupama.com/offres-emploi</a><div class="link-hint">Indeed : "alternance informatique Groupama Nantes"</div></td>
+  <td class="why">DSI assurance régionale, gestion de projets SI, profil MIAGE très recherché dans ce secteur.</td>
+</tr>
+
+<tr class="new-row" data-type="pme" data-name="wemanity agilité coaching tech">
+  <td class="num-cell">54</td>
+  <td><div class="company-name">Wemanity</div><div class="company-sub">Agilité & coaching tech · bureau Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Agence</span></td>
+  <td class="link-block"><a href="https://wemanity.com/fr/rejoignez-nous/" target="_blank">wemanity.com/rejoindre</a><div class="link-hint">WelcomeToTheJungle : Wemanity</div></td>
+  <td class="why">Agilité + transformation SI + ton aisance gestion de projet = trio gagnant. Profil rare pour eux.</td>
+</tr>
+
+<tr class="new-row" data-type="esn" data-name="soat nantes java">
+  <td class="num-cell">55</td>
+  <td><div class="company-name">SOAT</div><div class="company-sub">Expertise technique Java/JEE · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.soat.fr/rejoignez-nous/" target="_blank">soat.fr/rejoignez-nous</a></td>
+  <td class="why">Spécialiste Java, qualité logicielle. Bonne école pour monter ton niveau Java avant M1.</td>
+</tr>
+
+<tr class="new-row" data-type="cyber" data-name="cellar cyber sécurité nantes">
+  <td class="num-cell">56</td>
+  <td><div class="company-name">Cellar (ex-Clef)</div><div class="company-sub">Authentification forte · cybersécurité · Nantes</div></td>
+  <td><span class="type-badge b-cyber">Cybersécurité</span></td>
+  <td class="link-block"><a href="https://www.welcometothejungle.com/fr/companies/clef" target="_blank">WelcomeToTheJungle : Cellar</a><div class="link-hint">Start-up cybersécurité d'authentification</div></td>
+  <td class="why">Start-up cyber en croissance. Ton profil SIO + ANSSI = <strong>profil idéal</strong>. Peu de candidats à ce niveau.</td>
+</tr>
+
+  </tbody></table></div>
+
+  <!-- JOUR 7 -->
+  <div class="section-title" style="margin-top:1.5rem;font-size:0.95rem;border-bottom-style:dashed;"><span>Mardi S2</span><span class="day-num">#57 à #62</span></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th></tr></thead><tbody>
+
+<tr class="new-row" data-type="pme" data-name="digital league nantes startup">
+  <td class="num-cell">57</td>
+  <td><div class="company-name">Atlantic Seed</div><div class="company-sub">Incubateur / start-ups tech · Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Start-up</span></td>
+  <td class="link-block"><a href="https://www.atlanticseed.com" target="_blank">atlanticseed.com</a><div class="link-hint">Candidature spontanée — demander start-ups membres</div></td>
+  <td class="why">Incubateur de start-ups tech Nantes. Permet de cibler plusieurs jeunes pousses via un seul contact.</td>
+</tr>
+
+<tr class="new-row" data-type="esn" data-name="inetum services numériques">
+  <td class="num-cell">58</td>
+  <td><div class="company-name">Inetum</div><div class="company-sub">Services numériques · bureau Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.inetum.com/fr/carrieres" target="_blank">inetum.com/carrieres</a><div class="link-hint">Indeed : "alternance Inetum Nantes"</div></td>
+  <td class="why">ESN en croissance, missions variées Java/SI/web. Alternances longues acceptées.</td>
+</tr>
+
+<tr class="new-row" data-type="big" data-name="michelin tech si">
+  <td class="num-cell">59</td>
+  <td><div class="company-name">Michelin — Direction IT</div><div class="company-sub">Industrie / SI global · site Loire-Atlantique</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://jobs.michelin.com" target="_blank">jobs.michelin.com</a></td>
+  <td class="why">SI industriel mondial, Python, data. Alternances très bien encadrées, forte réputation.</td>
+</tr>
+
+<tr class="new-row" data-type="esn" data-name="hardis group cloud si">
+  <td class="num-cell">60</td>
+  <td><div class="company-name">Hardis Group</div><div class="company-sub">Cloud · SI · logistique · bureau Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.hardis-group.com/rejoindre-hardis-group/" target="_blank">hardis-group.com/rejoindre</a></td>
+  <td class="why">Cloud, SI, e-commerce. Profil développeur full stack très demandé. Bonne culture alternance.</td>
+</tr>
+
+<tr class="new-row" data-type="pub" data-name="caisse epargne loire bretagne si">
+  <td class="num-cell">61</td>
+  <td><div class="company-name">Caisse d'Épargne Loire Bretagne</div><div class="company-sub">Banque régionale · DSI · Nantes</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://www.ce-loirebretagne.fr/recrutement" target="_blank">ce-loirebretagne.fr/recrutement</a><div class="link-hint">Indeed : "alternance CELB informatique Nantes"</div></td>
+  <td class="why">Banque régionale proche, DSI structurée. Alternances SI longues, MIAGE très valorisé en banque.</td>
+</tr>
+
+<tr class="new-row" data-type="pme" data-name="addactis actuariat data nantes">
+  <td class="num-cell">62</td>
+  <td><div class="company-name">Addactis</div><div class="company-sub">Actuariat · data · logiciels · Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Agence</span></td>
+  <td class="link-block"><a href="https://www.addactis.com/fr/carrieres/" target="_blank">addactis.com/carrieres</a></td>
+  <td class="why">Python + SQL + logique algorithmique. Secteur assurance/data, peu concurrencé par les alternants.</td>
+</tr>
+
+  </tbody></table></div>
+
+  <!-- JOUR 8 -->
+  <div class="section-title" style="margin-top:1.5rem;font-size:0.95rem;border-bottom-style:dashed;"><span>Mercredi S2</span><span class="day-num">#63 à #68</span></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th></tr></thead><tbody>
+
+<tr class="new-row" data-type="big" data-name="schneider electric energie si">
+  <td class="num-cell">63</td>
+  <td><div class="company-name">Schneider Electric</div><div class="company-sub">Énergie / automatisation · DSI Nantes</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.se.com/fr/fr/about-us/careers/" target="_blank">se.com/carrieres</a><div class="link-hint">Indeed : "alternance Schneider Nantes"</div></td>
+  <td class="why">SI industriel, Python, projets data & IoT. Grande structure = alternances 3 ans possibles.</td>
+</tr>
+
+<tr class="new-row" data-type="esn" data-name="manpower it atos nantes">
+  <td class="num-cell">64</td>
+  <td><div class="company-name">Claranet France</div><div class="company-sub">Cloud · cybersécurité · bureau Nantes</div></td>
+  <td><span class="type-badge b-cyber">Cybersécurité</span></td>
+  <td class="link-block"><a href="https://www.claranet.fr/carrieres" target="_blank">claranet.fr/carrieres</a></td>
+  <td class="why">Cloud + cybersécurité = double alignement MIAGE + SIO. Entreprise en forte croissance.</td>
+</tr>
+
+<tr class="new-row" data-type="pme" data-name="namkin app mobile startup nantes">
+  <td class="num-cell">65</td>
+  <td><div class="company-name">Openium</div><div class="company-sub">Studio mobile & web · Clermont / Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Start-up</span></td>
+  <td class="link-block"><a href="https://www.openium.fr/recrutement" target="_blank">openium.fr/recrutement</a><div class="link-hint">Kotlin dans ton CV = atout ici</div></td>
+  <td class="why">Développement mobile <strong>Kotlin</strong> = ton langage (même si 3/5, c'est rare et valorisé). Application mobile + web.</td>
+</tr>
+
+<tr class="new-row" data-type="pub" data-name="cnaf caf allocations familiales si">
+  <td class="num-cell">66</td>
+  <td><div class="company-name">CAF Loire-Atlantique — DSI</div><div class="company-sub">Protection sociale · Nantes</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://www.caf.fr/partenaires/caf-de-loire-atlantique" target="_blank">caf.fr/loire-atlantique</a><div class="link-hint">Candidature spontanée DRH recommandée</div></td>
+  <td class="why">SI public social, peu de concurrence alternance, missions variées en SQL/Java, stabilité maximale.</td>
+</tr>
+
+<tr class="new-row" data-type="esn" data-name="ivalua procurement si nantes">
+  <td class="num-cell">67</td>
+  <td><div class="company-name">Ivalua</div><div class="company-sub">Procurement software · bureau Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.ivalua.com/fr/carrieres/" target="_blank">ivalua.com/carrieres</a></td>
+  <td class="why">SaaS B2B, SI achat, Python + SQL. Entreprise internationale avec forte présence Nantes.</td>
+</tr>
+
+<tr class="new-row" data-type="pme" data-name="axionable data ia nantes">
+  <td class="num-cell">68</td>
+  <td><div class="company-name">Axionable</div><div class="company-sub">Data & IA responsable · bureau Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Agence</span></td>
+  <td class="link-block"><a href="https://www.axionable.com/rejoindre-axionable/" target="_blank">axionable.com/rejoindre</a><div class="link-hint">WelcomeToTheJungle : Axionable</div></td>
+  <td class="why">Data + IA éthique + Python. Niche montante, peu de candidats alternants qualifiés.</td>
+</tr>
+
+  </tbody></table></div>
+
+  <!-- JOUR 9 -->
+  <div class="section-title" style="margin-top:1.5rem;font-size:0.95rem;border-bottom-style:dashed;"><span>Jeudi S2</span><span class="day-num">#69 à #74</span></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th></tr></thead><tbody>
+
+<tr class="new-row" data-type="big" data-name="engie energie transition si">
+  <td class="num-cell">69</td>
+  <td><div class="company-name">ENGIE — Direction Digitale</div><div class="company-sub">Énergie & transition numérique</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://jobs.engie.com" target="_blank">jobs.engie.com</a><div class="link-hint">Filtre : alternance + Nantes/PDL</div></td>
+  <td class="why">SI énergie, projets data, Python. Alternances 3 ans acceptées. Fort enjeu cybersécurité.</td>
+</tr>
+
+<tr class="new-row" data-type="esn" data-name="scaleway cloud tech">
+  <td class="num-cell">70</td>
+  <td><div class="company-name">CAST Software</div><div class="company-sub">Qualité logicielle · IA & SI · Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.castsoftware.com/careers" target="_blank">castsoftware.com/careers</a></td>
+  <td class="why">Analyse de code, qualité SI. Entreprise internationale avec bureau Nantes. Python + Java utiles.</td>
+</tr>
+
+<tr class="new-row" data-type="pme" data-name="theodo agile tech">
+  <td class="num-cell">71</td>
+  <td><div class="company-name">Theodo</div><div class="company-sub">Développement agile · bureau Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Agence</span></td>
+  <td class="link-block"><a href="https://www.theodo.fr/recrutement" target="_blank">theodo.fr/recrutement</a><div class="link-hint">WelcomeToTheJungle : Theodo Nantes</div></td>
+  <td class="why">Agence développement haut de gamme. Projets web PHP/JS. Forte culture apprentissage interne.</td>
+</tr>
+
+<tr class="new-row" data-type="pub" data-name="nantes universite informatique">
+  <td class="num-cell">72</td>
+  <td><div class="company-name">Nantes Université — DSI</div><div class="company-sub">Établissement supérieur · SI académique</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://www.univ-nantes.fr/l-universite/travailler-a-nantes-universite" target="_blank">univ-nantes.fr/travailler</a><div class="link-hint">Contact DSI direct recommandé</div></td>
+  <td class="why">DSI interne de l'université qui t'accueille en MIAGE. Double avantage : proximité géographique + culture.</td>
+</tr>
+
+<tr class="new-row" data-type="cyber" data-name="advens cybersécurité">
+  <td class="num-cell">73</td>
+  <td><div class="company-name">Advens</div><div class="company-sub">Cybersécurité pure player · Nantes</div></td>
+  <td><span class="type-badge b-cyber">Cybersécurité</span></td>
+  <td class="link-block"><a href="https://www.advens.fr/rejoindre-advens/" target="_blank">advens.fr/rejoindre</a><div class="link-hint">Indeed : "alternance Advens Nantes"</div></td>
+  <td class="why">Pure player cyber. MOOC ANSSI + BTS SIO cyber = tu as exactement le profil qu'ils cherchent.</td>
+</tr>
+
+<tr class="new-row" data-type="esn" data-name="apside groupe nantes">
+  <td class="num-cell">74</td>
+  <td><div class="company-name">Apside</div><div class="company-sub">ESN française · bureau Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.apside.com/recrutement/" target="_blank">apside.com/recrutement</a><div class="link-hint">Indeed : "alternance Apside Nantes"</div></td>
+  <td class="why">ESN à taille humaine, missions variées. Bon accueil MIAGE, accompagnement alternant sérieux.</td>
+</tr>
+
+  </tbody></table></div>
+
+  <!-- JOUR 10 -->
+  <div class="section-title" style="margin-top:1.5rem;font-size:0.95rem;border-bottom-style:dashed;"><span>Vendredi S2</span><span class="day-num">#75 à #80</span></div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Entreprise</th><th>Type</th><th>Lien / Contact</th><th>Pourquoi toi ?</th></tr></thead><tbody>
+
+<tr class="new-row" data-type="big" data-name="saint gobain si industrie">
+  <td class="num-cell">75</td>
+  <td><div class="company-name">Saint-Gobain — DSI France</div><div class="company-sub">Industrie · site Loire-Atlantique</div></td>
+  <td><span class="type-badge b-big">Grande ESN</span></td>
+  <td class="link-block"><a href="https://www.careers.saint-gobain.fr" target="_blank">careers.saint-gobain.fr</a></td>
+  <td class="why">SI industriel mondial, projets data & ERP. Alternances longues bien structurées. Peu concurrencé MIAGE.</td>
+</tr>
+
+<tr class="new-row" data-type="pme" data-name="alma paiement fintech nantes">
+  <td class="num-cell">76</td>
+  <td><div class="company-name">Alma (paiement fractionné)</div><div class="company-sub">Fintech · bureau Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Start-up</span></td>
+  <td class="link-block"><a href="https://www.getalma.eu/fr/carrieres" target="_blank">getalma.eu/carrieres</a><div class="link-hint">WelcomeToTheJungle : Alma</div></td>
+  <td class="why">Fintech en forte croissance, Python, API, SI financier. Profil développeur full-stack recherché.</td>
+</tr>
+
+<tr class="new-row" data-type="esn" data-name="open groupe si">
+  <td class="num-cell">77</td>
+  <td><div class="company-name">Open (Groupe)</div><div class="company-sub">Services numériques · bureau Nantes</div></td>
+  <td><span class="type-badge b-esn">ESN locale</span></td>
+  <td class="link-block"><a href="https://www.open.global/fr/carrieres" target="_blank">open.global/carrieres</a><div class="link-hint">Indeed : "alternance Open Nantes"</div></td>
+  <td class="why">ESN française solide, Java/SI/cloud. Alternances longues acceptées, MIAGE reconnu.</td>
+</tr>
+
+<tr class="new-row" data-type="pub" data-name="pole emploi france travail si">
+  <td class="num-cell">78</td>
+  <td><div class="company-name">France Travail (ex-Pôle Emploi) DSI</div><div class="company-sub">Service public national · bureau Nantes</div></td>
+  <td><span class="type-badge b-pub">Secteur public</span></td>
+  <td class="link-block"><a href="https://www.francetravail.org/candidats/votre-carriere/recrutement.html" target="_blank">francetravail.org/recrutement</a></td>
+  <td class="why">SI public à grande échelle, Python, Java. Alternances bien encadrées, 3 ans possibles.</td>
+</tr>
+
+<tr class="new-row" data-type="cyber" data-name="thales cyber defence nantes">
+  <td class="num-cell">79</td>
+  <td><div class="company-name">Thales — Cyber & Digital Solutions</div><div class="company-sub">Défense / cybersécurité · site Loire-Atlantique</div></td>
+  <td><span class="type-badge b-cyber">Cybersécurité</span></td>
+  <td class="link-block"><a href="https://www.thalesgroup.com/fr/global/carrieres" target="_blank">thalesgroup.com/carrieres</a><div class="link-hint">Indeed : "alternance Thales Nantes cybersécurité"</div></td>
+  <td class="why">Cybersécurité défense haut niveau. MOOC ANSSI = argument fort. Alternances 3 ans. Débouchés M2 excellents.</td>
+</tr>
+
+<tr class="new-row" data-type="pme" data-name="yousign signature electronique nantes">
+  <td class="num-cell">80</td>
+  <td><div class="company-name">YouSign</div><div class="company-sub">Signature électronique · scale-up française · Nantes</div></td>
+  <td><span class="type-badge b-pme">PME / Start-up</span></td>
+  <td class="link-block"><a href="https://yousign.com/fr-fr/carrieres" target="_blank">yousign.com/carrieres</a><div class="link-hint">WelcomeToTheJungle : YouSign</div></td>
+  <td class="why">Scale-up tech française en forte croissance. SI sécurisé, Python/API, cybersécurité des flux = profil parfait.</td>
+</tr>
+
+  </tbody></table></div>
+
+  <div class="no-results" id="no-results">Aucune entreprise ne correspond à ta recherche.</div>
+</main>
+
+<footer>
+  <div>
+    <b>Morgane Pesquer-Deniaud</b> · morgane.pesquerdeniaud@gmail.com · 06 17 30 25 07<br>
+    L3 MIAGE Nantes (liste principale 2026) · BTS SIO SLAM · La Chapelle-Launay
+  </div>
+  <div style="text-align:right;">
+    <b>Généré le</b> avril 2026<br>
+    80 entreprises · L3 → M1 → M2 · Alternance sept. 2026
+  </div>
+</footer>
+
+<script>
+  let activeFilter = 'all';
+
+  function getRows() {
+    return document.querySelectorAll('tbody tr[data-type]');
+  }
+
+  function setFilter(type, btn) {
+    activeFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterTable();
+  }
+
+  function filterTable() {
+    const q = document.getElementById('search').value.toLowerCase().trim();
+    const rows = getRows();
+    let visible = 0;
+
+    rows.forEach(row => {
+      const type = row.dataset.type;
+      const name = (row.dataset.name || '') + ' ' + (row.querySelector('.company-name')?.textContent || '') + ' ' + (row.querySelector('.company-sub')?.textContent || '') + ' ' + (row.querySelector('.why')?.textContent || '');
+
+      const matchFilter = activeFilter === 'all' ||
+        (activeFilter === 'new' && row.classList.contains('new-row')) ||
+        type === activeFilter;
+
+      const matchSearch = !q || name.toLowerCase().includes(q);
+
+      if (matchFilter && matchSearch) {
+        row.classList.remove('hidden');
+        visible++;
+      } else {
+        row.classList.add('hidden');
+      }
+    });
+
+    document.getElementById('count-info').textContent = visible + ' / ' + rows.length + ' entreprises';
+    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+  }
+</script>
+</body>
+</html>
